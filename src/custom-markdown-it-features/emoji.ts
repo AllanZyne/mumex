@@ -16,9 +16,10 @@ export default (md: MarkdownIt, config: MarkdownEngineConfig) => {
     const token = tokens[idx];
     if (config.enableEmojiSyntax) {
       const markup = token.markup;
-      if (markup.startsWith("fa-")) {
+      let mat = markup.match(/^(fa.?)-([^:]+)/);
+      if (mat) {
         // font-awesome
-        return `<i class="fa ${markup}" aria-hidden="true"></i>`;
+        return `<i class="${mat[1]} fa-${mat[2]}" aria-hidden="true"></i>`;
       } else {
         // emoji
         return token.content;
