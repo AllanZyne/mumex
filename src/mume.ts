@@ -30,47 +30,16 @@ export async function init(): Promise<void> {
     fs.mkdirSync(extensionConfigDirectoryPath);
   }
 
-  configs.globalStyle = await utility.getGlobalStyles();
-  configs.mermaidConfig = await utility.getMermaidConfig();
-  configs.mathjaxConfig = await utility.getMathJaxConfig();
-  configs.katexConfig = await utility.getKaTeXConfig();
-  configs.parserConfig = await utility.getParserConfig();
+  configs.previewConfig = await utility.getPreviewConfig();
   configs.config = await utility.getExtensionConfig();
 
   fs.watch(extensionConfigDirectoryPath, (eventType, fileName) => {
     if (eventType === "change") {
+      console.log("fs.watch", fileName);
+
       if (fileName === "style.less") {
-        // || fileName==='mermaid_config.js' || fileName==='mathjax_config')
         utility.getGlobalStyles().then((css) => {
           configs.globalStyle = css;
-          if (CONFIG_CHANGE_CALLBACK) {
-            CONFIG_CHANGE_CALLBACK();
-          }
-        });
-      } else if (fileName === "mermaid_config.js") {
-        utility.getMermaidConfig().then((mermaidConfig) => {
-          configs.mermaidConfig = mermaidConfig;
-          if (CONFIG_CHANGE_CALLBACK) {
-            CONFIG_CHANGE_CALLBACK();
-          }
-        });
-      } else if (fileName === "mathjax_config.js") {
-        utility.getMathJaxConfig().then((mathjaxConfig) => {
-          configs.mathjaxConfig = mathjaxConfig;
-          if (CONFIG_CHANGE_CALLBACK) {
-            CONFIG_CHANGE_CALLBACK();
-          }
-        });
-      } else if (fileName === "katex_config.js") {
-        utility.getKaTeXConfig().then((katexConfig) => {
-          configs.katexConfig = katexConfig;
-          if (CONFIG_CHANGE_CALLBACK) {
-            CONFIG_CHANGE_CALLBACK();
-          }
-        });
-      } else if (fileName === "parser.js") {
-        utility.getParserConfig().then((parserConfig) => {
-          configs.parserConfig = parserConfig;
           if (CONFIG_CHANGE_CALLBACK) {
             CONFIG_CHANGE_CALLBACK();
           }
@@ -78,6 +47,13 @@ export async function init(): Promise<void> {
       } else if (fileName === "config.json") {
         utility.getExtensionConfig().then((config) => {
           configs.config = config;
+          if (CONFIG_CHANGE_CALLBACK) {
+            CONFIG_CHANGE_CALLBACK();
+          }
+        });
+      } else if (fileName === "preview.js") {
+        utility.getPreviewConfig().then((previewConfig) => {
+          configs.previewConfig = previewConfig;
           if (CONFIG_CHANGE_CALLBACK) {
             CONFIG_CHANGE_CALLBACK();
           }

@@ -420,6 +420,38 @@ export async function getParserConfig(): Promise<object> {
   return parserConfig;
 }
 
+export async function getPreviewConfig(): Promise<object> {
+  const homeDir = os.homedir();
+  const previewConfigPath = path.resolve(homeDir, "./.mume/preview.js");
+
+  let previewConfig: object;
+  if (fs.existsSync(previewConfigPath)) {
+    try {
+      delete require.cache[previewConfigPath]; // return uncached
+      previewConfig = require(previewConfigPath);
+    } catch (error) {
+      console.error(error);
+      previewConfig = {};
+    }
+  } else {
+    const template = `{
+  generateScript: function(fm, isForVSCode) {
+  },
+  generateStyle: function(fm, isForVSCode) {
+  },
+  useMarkdownIt: function(md, config) {
+  }
+}`;
+    await writeFile(previewConfigPath, template, { encoding: "utf-8" });
+
+    previewConfig = {};
+  }
+
+  console.log("previewConfig", previewConfig);
+
+  return previewConfig;
+}
+
 /**
  * Check whether two arrays are equal
  * @param x
@@ -490,6 +522,7 @@ export const configs: {
   katexConfig: object;
   mermaidConfig: string;
   parserConfig: object;
+  previewConfig: object;
   /**
    * Please note that this is not necessarily MarkdownEngineConfig
    */
@@ -499,6 +532,7 @@ export const configs: {
   mathjaxConfig: defaultMathjaxConfig,
   katexConfig: defaultKaTeXConfig,
   mermaidConfig: "MERMAID_CONFIG = {startOnLoad: false}",
+  previewConfig: {},
   parserConfig: {},
   config: {},
 };

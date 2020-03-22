@@ -1,15 +1,16 @@
 {
-  "name": "@shd101wyy/mume",
+  "name": "@allanzyne/mumex",
   "version": "0.4.11",
   "description": "A powerful markdown tool",
   "keywords": [
     "markdown"
   ],
-  "repository": "https://github.com/shd101wyy/mume",
+  "repository": "https://github.com/allanzyne/mumex",
   "license": "NCSA",
   "contributors": [
     "shd101wyy",
-    "kachkaev"
+    "kachkaev",
+    "allanzyne"
   ],
   "files": [
     "dependencies",
