@@ -785,7 +785,7 @@ sidebarTOCBtn.addEventListener('click', function(event) {
       <title>${title}</title>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      ${this.generateStylesForPreview(false, yamlConfig, true)}
+      ${this.generateStylesForPreview(false, yamlConfig, false)}
       <style>
       ${styles}
       </style>
@@ -802,7 +802,7 @@ sidebarTOCBtn.addEventListener('click', function(event) {
       ${sidebarTOCBtn}
     </body>
     ${sidebarTOCScript}
-    ${this.generateScriptsForPreview(false, yamlConfig, true)}
+    ${this.generateScriptsForPreview(false, yamlConfig, false)}
   </html>
     `;
 
